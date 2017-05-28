@@ -18,7 +18,6 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnCadastrar;
     private EditText edtUser;
     private EditText edtSenha;
-    private int testeCommit2;
 
     private SharedPreferences preferenciaLogin;
 
