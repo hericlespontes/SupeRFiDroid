@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/padding_layout"
+    android:orientation="vertical"
+    tools:context="br.com.bhl.superfidapp.MinhasComprasActivity">
+
+    <RadioGroup
+        android:id="@+id/rdiGrupo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/padding_layout"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rdiProdutos"
+            style="@style/TxtPadrao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="35dip"
+            android:onClick="onRadioButtonClicked"
+            android:text="@string/rdiProdutos" />
+
+        <RadioButton
+            android:id="@+id/rdiCompras"
+            style="@style/TxtPadrao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onRadioButtonClicked"
+            android:text="@string/rdiCompras" />
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/TxtPadrao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/margin_components_right"
+            android:text="@string/lblDtInicial" />
+
+        <TextView
+            style="@style/TxtPadrao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lblDtFinal" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/edtDataInicial"
+            style="@style/TxtPadrao"
+            android:layout_width="160dip"
+            android:layout_height="wrap_content"
+            android:inputType="date" />
+
+        <EditText
+            android:id="@+id/edtDataFinal"
+            style="@style/TxtPadrao"
+            android:layout_width="160dip"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_layout"
+            android:layout_marginLeft="@dimen/margin_components_left"
+            android:inputType="date" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/TxtPadrao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lblNomProduto" />
+
+        <EditText
+            android:id="@+id/edtNomeProduto"
+            style="@style/TxtPadrao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_components"
+            android:inputType="text" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnConsultar"
+        style="@style/BtnPadrao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btnConsultar"
+        android:layout_marginTop="@dimen/margin_components_right"/>
+
+</LinearLayout>

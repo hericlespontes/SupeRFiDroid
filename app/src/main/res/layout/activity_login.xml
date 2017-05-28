@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_layout"
+        tools:context="br.com.bhl.superfidapp.LoginActivity">
+
+        <ImageView
+            android:layout_width="@dimen/logoLargura"
+            android:layout_height="@dimen/logoAltura"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/margin_btns"
+            android:src="@drawable/logo_tsp" />
+
+        <TextView
+            style="@style/TxtPadrao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lblLogin" />
+
+        <EditText
+            android:id="@+id/edtUser"
+            style="@style/TxtPadrao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+
+        <TextView
+            style="@style/TxtPadrao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lblSenha" />
+
+        <EditText
+            android:id="@+id/edtSenha"
+            style="@style/TxtPadrao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_components"
+            android:inputType="textPassword" />
+
+        <Button
+            android:id="@+id/btnEntrar"
+            style="@style/BtnPadrao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_btns"
+            android:text="@string/btnEntrar" />
+
+        <Button
+            android:id="@+id/btnCadastrar"
+            style="@style/BtnPadrao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btnCadastrar" />
+
+    </LinearLayout>
+
+</ScrollView>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="padding_layout">20dip</dimen>
+
+    <dimen name="texto_padrao">22sp</dimen>
+    <dimen name="margin_components">25dip</dimen>
+    <dimen name="margin_btns">15dip</dimen>
+    <dimen name="margin_components_left">45dip</dimen>
+    <dimen name="margin_components_right">90dip</dimen>
+    <dimen name="margin_left">40dip</dimen>
+    <dimen name="margin_right">50dip</dimen>
+
+    <dimen name="logoLargura">200dip</dimen>
+    <dimen name="logoAltura">150dip</dimen>
+
+    <dimen name="larguraCampo">50dip</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+</resources>

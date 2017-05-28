@@ -1,0 +1,19 @@
+<resources>
+
+    <string name="app_name">SupeRFiD</string>
+    <string name="lblLogin">Usuário</string>
+    <string name="lblSenha">Senha</string>
+    <string name="btnEntrar">Entrar</string>
+    <string name="btnCadastrar">Cadastrar</string>
+    <string name="btnParear">Parear Dispositivo</string>
+    <string name="btnMinhasCompras">Minhas Compras</string>
+    <string name="rdiProdutos">Produtos</string>
+    <string name="rdiCompras">Compras</string>
+    <string name="lblDtInicial">Data Inicial</string>
+    <string name="lblDtFinal">Data Final</string>
+    <string name="lblNomProduto">Nome Produto</string>
+    <string name="btnConsultar">Consultar</string>
+    <string name="title_activity_caput">CaputActivity</string>
+    <string name="item_sair">Sair</string>
+
+</resources>
