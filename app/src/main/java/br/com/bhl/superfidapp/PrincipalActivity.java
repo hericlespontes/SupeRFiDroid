@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -21,12 +22,21 @@ public class PrincipalActivity extends AppCompatActivity {
     private Button btnParear;
     private Button btnMinhasCompras;
 
+    private String usrName;
+    private SharedPreferences preferenciaLogin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
 
-        getSupportActionBar().setTitle("Bem-Vindo Fulano");
+        //captura o nome de usuario das preferences
+        preferenciaLogin = getSharedPreferences("preferencia", Context.MODE_PRIVATE);
+        usrName = preferenciaLogin.getString("user", null);
+
+        if(usrName != null) {
+            getSupportActionBar().setTitle("Bem-Vindo " + usrName);
+        }
 
         btnParear = (Button) findViewById(R.id.btnParear);
         btnMinhasCompras = (Button) findViewById(R.id.btnMinhasCompras);
@@ -70,6 +80,7 @@ public class PrincipalActivity extends AppCompatActivity {
                 SharedPreferences.Editor preferenciaEditor = getSharedPreferences("preferencia", Context.MODE_PRIVATE).edit();
                 preferenciaEditor.remove("user");
                 preferenciaEditor.remove("senha");
+                preferenciaEditor.apply();
                 preferenciaEditor.commit();
 
 
