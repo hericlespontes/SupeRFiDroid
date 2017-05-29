@@ -2,15 +2,15 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:layout_height="match_parent"
     tools:context="br.com.bhl.superfidapp.Compras">
 
     <android.support.design.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="344dp"
-        android:layout_height="495dp"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         tools:layout_editor_absoluteY="8dp"
         tools:layout_editor_absoluteX="8dp">
 
@@ -18,8 +18,36 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="110dp"/>
 
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:orientation="vertical"
+            android:layout_gravity="bottom"
+            android:layout_width="fill_parent"
+            android:layout_height="110dp"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:text="R$0000,00"
+                android:gravity="center"
+                android:background="@color/cardview_shadow_end_color"
+                android:textSize="25dp"
+                android:typeface="sans"
+                />
+
+            <Button
+                android:id="@+id/button2"
+                style="@style/BtnPadrao"
+                android:layout_width="fill_parent"
+                android:layout_height="55dp"
+                android:text="Finalizar compra"
+                />
+
+        </LinearLayout>
     </android.support.design.widget.CoordinatorLayout>
 
 </android.support.constraint.ConstraintLayout>

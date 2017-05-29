@@ -28,7 +28,7 @@ public class LoginBO {
         }
 
         if (validacao) {
-            if(!loginValidation.getUser().equals("administrador") || !loginValidation.getSenha().equals("admin321")) {
+            if(!loginValidation.getUser().equals("user") || !loginValidation.getSenha().equals("123")) {
                 Util.showMensagens(loginValidation.getActitity(), "Login/Senha inválidos");
                 validacao = false;
             } else {
