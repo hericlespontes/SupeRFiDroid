@@ -9,7 +9,9 @@ import java.util.List;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
+import br.com.bhl.superfidapp.util.ConnectionThread;
 import br.com.bhl.superfidapp.util.Util;
 
 public class Compras extends AppCompatActivity {
@@ -46,6 +48,10 @@ public class Compras extends AppCompatActivity {
 
         }
 
+        public void msg(String msg){
+            Toast.makeText(Compras.super.getBaseContext(), msg, Toast.LENGTH_LONG).show();
+        }
+
     public static Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -53,8 +59,22 @@ public class Compras extends AppCompatActivity {
             Bundle bundle = msg.getData();
             byte[] data = bundle.getByteArray("data");
             String dataString= new String(data);
-            if(!dataString.equals("")){
+
+           /* if(dataString.equals("---N"))
+                //statusMessage.setText("Ocorreu um erro durante a conexão D:");
+
+            else if(dataString.equals("---S") || dataString.equals("OK"))
+                //statusMessage.setText("Conectado :D");
+
+            else {
                 produtos.add(new Produto("Feijão",4.70,"Camil","23/10/2018","L4052",1.0));
+                //textSpace.setText(new String(data));
+            }*/
+
+            if(!dataString.equals("---N") || !dataString.equals("---S") || !dataString.equals("OK")){
+                produtos.add(new Produto("Feijão",4.70,"Camil","23/10/2018","L4052",1.0));
+            }else if(dataString.equals("OK?")){
+                PrincipalActivity.returnCodeBT();
             }
         }
     };

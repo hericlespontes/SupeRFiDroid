@@ -37,6 +37,8 @@ public class PrincipalActivity extends AppCompatActivity {
 
     private static int ENABLE_BLUETOOTH = 1;
 
+    private static ConnectionThread conn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,7 +120,7 @@ public class PrincipalActivity extends AppCompatActivity {
                 if(!btAdapter.isEnabled()) {
                     Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                     startActivityForResult(enableBtIntent, ENABLE_BLUETOOTH);
-                    ConnectionThread conn = new ConnectionThread("20:16:04:11:26:86");
+                    conn = new ConnectionThread("20:16:04:11:26:86");
                     conn.start();
                     //inicia Compras após chamar a thread de conexao bt
                     Intent it = new Intent(PrincipalActivity.this, Compras.class);
@@ -131,6 +133,11 @@ public class PrincipalActivity extends AppCompatActivity {
             super.onActivityResult(requestCode, resultCode, data);
         }
 
+    }
+
+    public static void returnCodeBT(){
+        String retorno = "1";
+        conn.write(retorno.getBytes());
     }
 
     public static Handler handler = new Handler() {
