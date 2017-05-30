@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                     edtUser.setText("");
                     edtSenha.setText("");
                 } else {
-                    Intent it = new Intent(LoginActivity.this, Compras.class);
+                    Intent it = new Intent(LoginActivity.this, PrincipalActivity.class);
                     startActivity(it);
                     finish();
                 }

@@ -10,6 +10,7 @@ import android.os.Message;
 import java.io.IOException;
 import java.util.UUID;
 
+import br.com.bhl.superfidapp.Compras;
 import br.com.bhl.superfidapp.PrincipalActivity;
 
 /**
@@ -142,7 +143,7 @@ public class ConnectionThread extends Thread{
         Bundle bundle = new Bundle();
         bundle.putByteArray("data", data);
         message.setData(bundle);
-        PrincipalActivity.handler.sendMessage(message);
+        Compras.handler.sendMessage(message);
     }
 
     /*  Método utilizado pela Activity principal para encerrar a conexão

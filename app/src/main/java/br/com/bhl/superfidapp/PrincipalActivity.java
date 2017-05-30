@@ -118,8 +118,11 @@ public class PrincipalActivity extends AppCompatActivity {
                 if(!btAdapter.isEnabled()) {
                     Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                     startActivityForResult(enableBtIntent, ENABLE_BLUETOOTH);
-                    ConnectionThread conn = new ConnectionThread("9C:65:B0:B9:C8:BB");
+                    ConnectionThread conn = new ConnectionThread("20:16:04:11:26:86");
                     conn.start();
+                    //inicia Compras após chamar a thread de conexao bt
+                    Intent it = new Intent(PrincipalActivity.this, Compras.class);
+                    startActivity(it);
                 } else {
                     Toast.makeText(this, "Falha ao ligar bluetooth", Toast.LENGTH_LONG).show();
                 }
