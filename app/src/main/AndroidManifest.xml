@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -29,7 +30,20 @@
             android:name=".MinhasComprasActivity"
             android:configChanges="keyboardHidden"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".Compras"></activity>
+        <activity
+            android:name=".PairedDevices"
+            android:label="Paired Devices"
+            android:parentActivityName=".MainBluetoothActivity" >
+        </activity>
+        <activity
+            android:name=".DiscoveredDevices"
+            android:label="Discovered Devices"
+            android:parentActivityName=".MainBluetoothActivity" >
+        </activity>
+        <activity
+            android:name=".MainBluetoothActivity"
+            android:label="Main Bt">
+        </activity>
     </application>
 
 </manifest>

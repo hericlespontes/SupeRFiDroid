@@ -1,9 +1,14 @@
-package br.com.bhl.superfidapp.util;
+package br.com.bhl.superfidapp;
 
+/**
+ * Created by hericlespontes on 15/07/17.
+ */
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Message;
 
@@ -13,22 +18,22 @@ import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.UUID;
 
-import br.com.bhl.superfidapp.Compras;
-import br.com.bhl.superfidapp.PrincipalActivity;
 
-/**
- * Created by LEONARDOLN on 27/05/2017.
- */
-public class ConnectionThread extends Thread{
+public class ConnectionThread extends Thread {
 
-    BluetoothSocket btSocket = null;
-    BluetoothServerSocket btServerSocket = null;
-    InputStream input = null;
-    OutputStream output = null;
-    String btDevAddress = null;
-    String myUUID = "00001101-0000-1000-8000-00805F9B34FB";
-    boolean server;
-    boolean running = false;
+    private BluetoothSocket btSocket = null;
+    private BluetoothServerSocket btServerSocket = null;
+    private InputStream input = null;
+    private OutputStream output = null;
+    private String btDevAddress = null;
+    private String btDevPwd = null;
+    private String myUUID = "00001101-0000-1000-8000-00805F9B34FB";
+    private boolean server;
+    private boolean running = false;
+
+    IntentFilter filter2 = new IntentFilter(
+            "android.bluetooth.device.action.PAIRING_REQUEST");
+
 
     /*  Este construtor prepara o dispositivo para atuar como servidor.
      */
@@ -41,10 +46,14 @@ public class ConnectionThread extends Thread{
         Tem como argumento uma string contendo o endereço MAC do dispositivo
     Bluetooth para o qual deve ser solicitada uma conexão.
      */
-    public ConnectionThread(String btDevAddress) {
+    public ConnectionThread(String btDevAddress, String btDevPwd) {
 
         this.server = false;
         this.btDevAddress = btDevAddress;
+        this.btDevPwd = btDevPwd;
+
+
+
     }
 
     /*  O método run() contem as instruções que serão efetivamente realizadas
@@ -61,7 +70,7 @@ public class ConnectionThread extends Thread{
         /*  Determina que ações executar dependendo se a thread está configurada
         para atuar como servidor ou cliente.
          */
-        if(this.server) {
+        if (this.server) {
 
             /*  Servidor.
              */
@@ -78,7 +87,7 @@ public class ConnectionThread extends Thread{
                 /*  Se a conexão foi estabelecida corretamente, o socket
                 servidor pode ser liberado.
                  */
-                if(btSocket != null) {
+                if (btSocket != null) {
 
                     btServerSocket.close();
                 }
@@ -105,6 +114,10 @@ public class ConnectionThread extends Thread{
                     Cria um socket Bluetooth.
                  */
                 BluetoothDevice btDevice = btAdapter.getRemoteDevice(btDevAddress);
+                if (btDevice.getBondState() == BluetoothDevice.BOND_NONE) {
+
+                }
+
                 btSocket = btDevice.createRfcommSocketToServiceRecord(UUID.fromString(myUUID));
 
                 /*  Envia ao sistema um comando para cancelar qualquer processo
@@ -134,9 +147,9 @@ public class ConnectionThread extends Thread{
 
         /*  Pronto, estamos conectados! Agora, só precisamos gerenciar a conexão.
             ...
-        */
+         */
 
-        if(btSocket != null) {
+        if (btSocket != null) {
 
             /*  Envia um código para a Activity principal informando que a
             a conexão ocorreu com sucesso.
@@ -167,9 +180,14 @@ public class ConnectionThread extends Thread{
                     Esta thread permanecerá em estado de escuta até que
                 a variável running assuma o valor false.
                  */
-                while(running) {
+                while (running) {
+
+                    //envia caracter de confirmacao para o hardware
+                    byte[] init = "1".getBytes();
+                    write(init);
 
                     bytes = input.read(buffer);
+
                     toMainActivity(Arrays.copyOfRange(buffer, 0, bytes));
 
                 }
@@ -197,7 +215,7 @@ public class ConnectionThread extends Thread{
         Bundle bundle = new Bundle();
         bundle.putByteArray("data", data);
         message.setData(bundle);
-        Compras.handler.sendMessage(message);
+        MainBluetoothActivity.handler.sendMessage(message);
     }
 
     /*  Método utilizado pela Activity principal para transmitir uma mensagem ao
@@ -206,7 +224,7 @@ public class ConnectionThread extends Thread{
      */
     public void write(byte[] data) {
 
-        if(output != null) {
+        if (output != null) {
             try {
 
                 /*  Transmite a mensagem.
@@ -223,6 +241,7 @@ public class ConnectionThread extends Thread{
             toMainActivity("---N".getBytes());
         }
     }
+
     /*  Método utilizado pela Activity principal para encerrar a conexão
      */
     public void cancel() {
@@ -238,4 +257,7 @@ public class ConnectionThread extends Thread{
         }
         running = false;
     }
+
+
+
 }
