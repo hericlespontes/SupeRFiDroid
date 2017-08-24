@@ -29,18 +29,100 @@ public class MainBluetoothActivity extends AppCompatActivity{
     public static int ENABLE_BLUETOOTH = 1;
     public static int SELECT_PAIRED_DEVICE = 2;
     public static int SELECT_DISCOVERED_DEVICE = 3;
-
-    private String macAddress, ssId, password;
-
     static TextView statusMessage;
     static TextView textSpace;
-
     static RecyclerView recyclerView;
     static List<Produto> produtos = new ArrayList<>();
-
     static String codigoRecebido = "";
+    public static Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
 
+            Bundle bundle = msg.getData();
+            byte[] data = bundle.getByteArray("data");
+            String dataString= new String(data);
+
+            if(dataString.equals("---N")) {
+                statusMessage.setText("Ocorreu um erro durante a conexão D:");
+            }else if(dataString.equals("---S")) {
+                statusMessage.setText("Conectado :D");
+
+            }else {
+                //concatena dados recebidos pelo buffer na variavel temporaria
+                codigoRecebido = codigoRecebido + new String(data);
+                //Se receber o terminador $, insere o produto e zera a variavel temporaria
+
+                if(dataString.contains("$")){
+                    produtos.add(new Produto(codigoRecebido,4.70,"C","23/10/2018","L4052",1.0));
+                    recyclerView.getAdapter().notifyDataSetChanged();
+                    codigoRecebido = "";
+                }
+
+
+                //textSpace.setText(textSpace.getText() + new String(data));
+
+
+
+            }
+        }
+    };
     ConnectionThread connect;
+    private String macAddress, ssId, password;
+    private final BroadcastReceiver mBroadcastReceiver1 = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+
+            if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
+                final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR);
+                switch(state) {
+                    case BluetoothAdapter.STATE_OFF:
+
+                        break;
+                    case BluetoothAdapter.STATE_TURNING_OFF:
+
+                        break;
+                    case BluetoothAdapter.STATE_ON:
+
+                        break;
+                    case BluetoothAdapter.STATE_TURNING_ON:
+
+                        break;
+                }
+
+            }else if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action)) {
+
+                //Do something if connected
+                //Toast.makeText(getApplicationContext(), "BT Connected", Toast.LENGTH_SHORT).show();
+
+                setContentView(R.layout.activity_compras);
+                recyclerView = (RecyclerView) findViewById(R.id.recycler);
+
+                recyclerView.addItemDecoration(new DividerItemDecoration(MainBluetoothActivity.this));
+
+                recyclerView.setAdapter(new ComprasAdapter(MainBluetoothActivity.produtos, MainBluetoothActivity.this));
+
+                RecyclerView.LayoutManager layout = new LinearLayoutManager(MainBluetoothActivity.this, LinearLayoutManager.VERTICAL, false);
+
+                recyclerView.setLayoutManager(layout);
+
+            } else if (intent.getAction().equals("android.bluetooth.device.action.PAIRING_REQUEST")) {
+                try {
+                    BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
+                    BluetoothDevice mBluetoothDevice = btAdapter.getRemoteDevice(macAddress);
+                    byte[] pin = (byte[]) BluetoothDevice.class.getMethod("convertPinToBytes", String.class).invoke(BluetoothDevice.class, password);
+                    Method m = mBluetoothDevice.getClass().getMethod("setPin", byte[].class);
+                    m.invoke(mBluetoothDevice, pin);
+                    mBluetoothDevice.getClass().getMethod("setPairingConfirmation", boolean.class).invoke(mBluetoothDevice, true);
+                } catch (Exception e) {
+
+                    e.printStackTrace();
+
+                }
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,92 +231,6 @@ public class MainBluetoothActivity extends AppCompatActivity{
         byte[] data =  messageBoxString.getBytes();
         connect.write(data);
     }
-
-    public static Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-
-            Bundle bundle = msg.getData();
-            byte[] data = bundle.getByteArray("data");
-            String dataString= new String(data);
-
-            if(dataString.equals("---N")) {
-                statusMessage.setText("Ocorreu um erro durante a conexão D:");
-            }else if(dataString.equals("---S")) {
-                statusMessage.setText("Conectado :D");
-
-            }else {
-
-                codigoRecebido = codigoRecebido + new String(data);
-
-                    produtos.add(new Produto(codigoRecebido + "Length: "+codigoRecebido.length(),4.70,"C","23/10/2018","L4052",1.0));
-                    recyclerView.getAdapter().notifyDataSetChanged();
-                    codigoRecebido = "";
-
-
-                //textSpace.setText(textSpace.getText() + new String(data));
-
-
-
-            }
-        }
-    };
-
-    private final BroadcastReceiver mBroadcastReceiver1 = new BroadcastReceiver() {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            final String action = intent.getAction();
-
-            if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
-                final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR);
-                switch(state) {
-                    case BluetoothAdapter.STATE_OFF:
-
-                        break;
-                    case BluetoothAdapter.STATE_TURNING_OFF:
-
-                        break;
-                    case BluetoothAdapter.STATE_ON:
-
-                        break;
-                    case BluetoothAdapter.STATE_TURNING_ON:
-
-                        break;
-                }
-
-            }else if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action)) {
-
-                //Do something if connected
-                //Toast.makeText(getApplicationContext(), "BT Connected", Toast.LENGTH_SHORT).show();
-
-                setContentView(R.layout.activity_compras);
-                recyclerView = (RecyclerView) findViewById(R.id.recycler);
-
-                recyclerView.addItemDecoration(new DividerItemDecoration(MainBluetoothActivity.this));
-
-                recyclerView.setAdapter(new ComprasAdapter(MainBluetoothActivity.produtos, MainBluetoothActivity.this));
-
-                RecyclerView.LayoutManager layout = new LinearLayoutManager(MainBluetoothActivity.this, LinearLayoutManager.VERTICAL, false);
-
-                recyclerView.setLayoutManager(layout);
-
-            } else if (intent.getAction().equals("android.bluetooth.device.action.PAIRING_REQUEST")) {
-                try {
-                    BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
-                    BluetoothDevice mBluetoothDevice = btAdapter.getRemoteDevice(macAddress);
-                    byte[] pin = (byte[]) BluetoothDevice.class.getMethod("convertPinToBytes", String.class).invoke(BluetoothDevice.class, password);
-                    Method m = mBluetoothDevice.getClass().getMethod("setPin", byte[].class);
-                    m.invoke(mBluetoothDevice, pin);
-                    mBluetoothDevice.getClass().getMethod("setPairingConfirmation", boolean.class).invoke(mBluetoothDevice, true);
-                } catch (Exception e) {
-
-                    e.printStackTrace();
-
-                }
-            }
-        }
-    };
 
     @Override
     protected void onDestroy() {
